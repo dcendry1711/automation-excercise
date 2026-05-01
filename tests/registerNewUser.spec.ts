@@ -12,7 +12,7 @@ test.describe("E2E - Register new user process", () => {
     await homePage.loginSignupButton.click();
     await expect(registerSignupPage.signupForm).toContainText("New User Signup!");
     await registerSignupPage.signupNameInput.fill("Daniel");
-    await registerSignupPage.signupEmailInput.fill("dan999.cendry@gmail.com");
+    await registerSignupPage.signupEmailInput.fill("dan994.cendry@gmail.com");
     await registerSignupPage.signupButton.click();
     await expect(accountInformationPage.accountInformationForm).toBeVisible();
     await accountInformationPage.userGenderRadioButton.click();
@@ -33,11 +33,11 @@ test.describe("E2E - Register new user process", () => {
     await accountInformationPage.zipcodeInput.fill("90001");
     await accountInformationPage.mobileNumberInput.fill("+1234567890");
     await accountInformationPage.createAccountButton.click();
-    await expect(createdAccountPage.createdAccountMessage).toContainText("ACCOUNT CREATED!");
+    await expect(createdAccountPage.createdAccountMessage).toContainText("Account Created!");
     await createdAccountPage.finishCreatingAccountButton.click();
     await expect(homePage.loggedInAsText).toContainText("Logged in as Daniel");
     await homePage.deleteAccountButton.click();
-    await expect(deletedAccountPage.deletedAccountMessage).toContainText("ACCOUNT DELETED!");
+    await expect(deletedAccountPage.deletedAccountMessage).toContainText("Account Deleted!");
     await deletedAccountPage.finishDeletingAccountButton.click();
     await expect(homePage.loggedInAsText).not.toBeVisible();
     await expect(homePage.loginSignupButton).toBeVisible();

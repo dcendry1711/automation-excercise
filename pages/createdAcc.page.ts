@@ -6,7 +6,7 @@ export class CreatedAccountPage {
     finishCreatingAccountButton: Locator;
 
     constructor(private page: Page) {
-        this.createdAccountMessage = page.getByText('Account Created! Congratulations! Your new account has been successfully')
+        this.createdAccountMessage = page.getByText('Account Created!')
         this.finishCreatingAccountButton = page.getByRole('link', { name: 'Continue' });
     }
 }

@@ -6,7 +6,7 @@ export class DeletedAccountPage {
     finishDeletingAccountButton: Locator;
 
     constructor(private page: Page) {
-        this.deletedAccountMessage = page.getByText('Account Deleted! Your account')
-        this.finishDeletingAccountButton = page.getByRole('link', { name: 'Continue' })
+        this.deletedAccountMessage = page.getByText('Account Deleted!')
+        this.finishDeletingAccountButton = page.locator('div').filter({ hasText: /^Continue$/ });
     }
 }
