@@ -25,6 +25,10 @@ export class HomePage {
     await this.deleteAccountButton.click();
   }
 
+  async logoutFromAccount() {
+    await this.logoutButton.click();
+  }
+
   async verificationOfDeletedAccount() {
     await expect(this.loggedInAsText).not.toBeVisible();
     await expect(this.loginSignupButton).toBeVisible();
