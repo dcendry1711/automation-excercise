@@ -1,5 +1,4 @@
 import { Locator, Page, expect } from "@playwright/test";
-import { registerSignupFormUserData } from "../data/registeredUserData.data";
 
 export class HomePage {
   consentAcceptButton: Locator;
@@ -15,10 +14,10 @@ export class HomePage {
     await expect(this.loginSignupButton).toBeVisible();
   }
 
-  async verificationOfCreatedAccount() {
+  async verificationOfCreatedAccount(name: string) {
     await expect(this.loggedInAsText).toBeVisible();
     await expect(this.loggedInAsText).toContainText(
-      `Logged in as ${registerSignupFormUserData.name}`,
+      `Logged in as ${name}`,
     );
   }
 
@@ -38,9 +37,7 @@ export class HomePage {
     );
     this.leftSidebar = page.locator(".left-sidebar");
     this.loginSignupButton = page.locator("a", { hasText: "Signup / Login" });
-    this.loggedInAsText = page.getByText(
-      `Logged in as ${registerSignupFormUserData.name}`,
-    );
+    this.loggedInAsText = page.getByText(`Logged in as`);
     this.deleteAccountButton = page.getByRole("link", {
       name: " Delete Account",
     });
