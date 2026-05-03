@@ -28,7 +28,7 @@ export const test = base.extend<MyFixtures>({
   },
   deletedAccountPage: async ({ page }, use) => {
     await use(new DeletedAccountPage(page));
-  }
+  },
 });
 
 export { expect } from "@playwright/test";
