@@ -7,6 +7,7 @@ export class HomePage {
   loginSignupButton: Locator;
   loggedInAsText: Locator;
   deleteAccountButton: Locator;
+  logoutButton: Locator;
 
   async verificationOfHomePageLoading() {
     await this.consentAcceptButton.click();
@@ -43,5 +44,6 @@ export class HomePage {
     this.deleteAccountButton = page.getByRole("link", {
       name: " Delete Account",
     });
+    this.logoutButton = page.getByRole('link', { name: ' Logout' });
   }
 }
