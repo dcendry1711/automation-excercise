@@ -9,8 +9,6 @@ test.describe("Automation excercises test cases", () => {
     await page.waitForLoadState("domcontentloaded");
   });
 
-  const userData = generateNewUserData();
-
   test("TC01 - Register and delete new user", async ({
     homePage,
     registerSignupPage,
@@ -18,6 +16,8 @@ test.describe("Automation excercises test cases", () => {
     createdAccountPage,
     deletedAccountPage,
   }) => {
+    //generate new user data for registration
+    const userData = generateNewUserData();
     //verification of home page loading and accepting cookies
     await homePage.verificationOfHomePageLoading();
     //begin of the registration proccess
@@ -42,17 +42,21 @@ test.describe("Automation excercises test cases", () => {
     createdAccountPage,
     deletedAccountPage,
   }) => {
+    //generate new user data for registration
+    const userData = generateNewUserData();
+    //verification of home page loading and accepting cookies
     await homePage.verificationOfHomePageLoading();
+    //begin of the registration proccess
     await homePage.loginSignupButton.click();
+    //verify of registration page loading and filling the registration form
     await registerSignupPage.verificationOfRegisterSignupPageLoadingAndFillingForm(userData.name, userData.email);
     await accountInformationPage.verificationOfAccountInformationPageLoadingAndFillingForm();
+    //verification of account creation
     await createdAccountPage.verificationOfCreatedAccountPageLoadingAndFinishRegistration();
     await homePage.verificationOfCreatedAccount(userData.name);
+    //logout and login with created user data
     await homePage.logoutButton.click();
     await registerSignupPage.loginWithCreatedUserData(userData.email, accountInformationFormUserData.password);
     await homePage.verificationOfCreatedAccount(userData.name);
-    await homePage.deleteCreatedAccount();
-    await deletedAccountPage.deleteAccountProccessAndVerification();
-    await homePage.verificationOfDeletedAccount();
   });
 });
