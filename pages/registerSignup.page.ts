@@ -1,5 +1,5 @@
 import { Locator, Page, expect } from "@playwright/test";
-import { accountInformationFormUserData, registerSignupFormUserData } from "../data/registeredUserData.data";
+import { accountInformationFormUserData } from "../data/registeredUserData.data";
 
 export class RegisterSignupPage {
   signupForm: Locator;
@@ -11,17 +11,17 @@ export class RegisterSignupPage {
   loginPasswordInput: Locator;
   loginButton: Locator;
 
-  async verificationOfRegisterSignupPageLoadingAndFillingForm() {
+  async verificationOfRegisterSignupPageLoadingAndFillingForm(name: string, email: string) {
     await expect(this.signupForm).toContainText("New User Signup!");
-    await this.signupNameInput.fill("Daniel");
-    await this.signupEmailInput.fill("dan990.cendry@gmail.com");
+    await this.signupNameInput.fill(name);
+    await this.signupEmailInput.fill(email);
     await this.signupButton.click();
   }
 
-  async loginWithCreatedUserData() {
+  async loginWithCreatedUserData(email: string, password: string) {
     await expect(this.loginAccountHeader).toContainText("Login to your account");
-    await this.loginEmailInput.fill(registerSignupFormUserData.email);
-    await this.loginPasswordInput.fill(accountInformationFormUserData.password);
+    await this.loginEmailInput.fill(email);
+    await this.loginPasswordInput.fill(password);
     await this.loginButton.click();
   }
 
