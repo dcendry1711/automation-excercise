@@ -1,8 +1,3 @@
-export const registerSignupFormUserData = {
-  name: "Daniel",
-  email: "dan990.cendry@gmail.com",
-};
-
 export const accountInformationFormUserData = {
   title: "Mr",
   password: "123456",
@@ -11,8 +6,8 @@ export const accountInformationFormUserData = {
   yearOfBirth: "1990",
   newsletterCheckbox: true,
   specialOffersCheckbox: true,
-  firstName: "Daniel",
-  lastName: "Cendry",
+  firstName: "test first name",
+  lastName: "test last name",
   company: "Test Company",
   address: "Test Street 123",
   address2: "Test Street 456",
