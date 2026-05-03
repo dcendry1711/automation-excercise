@@ -57,7 +57,20 @@ test.describe("Automation excercises test cases", () => {
     await homePage.verificationOfCreatedAccount(userData.name);
     //logout and login with created user data
     await homePage.logoutButton.click();
-    await registerSignupPage.loginWithCreatedUserData(userData.email, accountInformationFormUserData.password);
+    await registerSignupPage.loginWithUserData(userData.email, accountInformationFormUserData.password);
     await homePage.verificationOfCreatedAccount(userData.name);
   });
+
+  test("TC03 - Login with incorrect email and password", async ({ homePage, registerSignupPage }) => {
+    //verification of home page loading and accepting cookies
+    await homePage.verificationOfHomePageLoading();
+    //begin of the registration proccess
+    await homePage.loginSignupButton.click();
+    //verify of registration page loading and filling the registration form
+    await registerSignupPage.loginWithUserData("incorrect@example.com", "incorrectpassword");
+    //verification of error message for incorrect email and password
+    await registerSignupPage.displayErrorMessageAfterLoginWithIncorrectData();
+  });
+
+  
 });
