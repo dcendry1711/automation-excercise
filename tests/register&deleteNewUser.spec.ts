@@ -1,11 +1,16 @@
 import { test, expect } from "../fixtures/automationExcercises.fixture";
-test.describe("E2E - Register/delete new user process", () => {
+import {
+  registerSignupFormUserData,
+  accountInformationFormUserData,
+} from "../data/registeredUserData.data";
+
+test.describe("Automation excercises test cases", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("");
     await page.waitForLoadState("domcontentloaded");
   });
 
-  test("E2E TC01 - Register and delete new user", async ({
+  test("TC01 - Register and delete new user", async ({
     homePage,
     registerSignupPage,
     accountInformationPage,
@@ -24,6 +29,27 @@ test.describe("E2E - Register/delete new user process", () => {
     await createdAccountPage.verificationOfCreatedAccountPageLoadingAndFinishRegistration();
     await homePage.verificationOfCreatedAccount();
     //deletion of created account and verification of deletion
+    await homePage.deleteCreatedAccount();
+    await deletedAccountPage.deleteAccountProccessAndVerification();
+    await homePage.verificationOfDeletedAccount();
+  });
+
+  test("TC02 - Login with created user data", async ({
+    homePage,
+    registerSignupPage,
+    accountInformationPage,
+    createdAccountPage,
+    deletedAccountPage,
+  }) => {
+    await homePage.verificationOfHomePageLoading();
+    await homePage.loginSignupButton.click();
+    await registerSignupPage.verificationOfRegisterSignupPageLoadingAndFillingForm();
+    await accountInformationPage.verificationOfAccountInformationPageLoadingAndFillingForm();
+    await createdAccountPage.verificationOfCreatedAccountPageLoadingAndFinishRegistration();
+    await homePage.verificationOfCreatedAccount();
+    await homePage.logoutButton.click();
+    await registerSignupPage.loginWithCreatedUserData();
+    await homePage.verificationOfCreatedAccount();
     await homePage.deleteCreatedAccount();
     await deletedAccountPage.deleteAccountProccessAndVerification();
     await homePage.verificationOfDeletedAccount();
