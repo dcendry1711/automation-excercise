@@ -50,6 +50,7 @@ test.describe("Automation excercises test cases", () => {
     await homePage.loginSignupButton.click();
     //verify of registration page loading and filling the registration form
     await registerSignupPage.verificationOfRegisterSignupPageLoadingAndFillingForm(userData.name, userData.email);
+    //verification of account information page loading and filling the account information form
     await accountInformationPage.verificationOfAccountInformationPageLoadingAndFillingForm();
     //verification of account creation
     await createdAccountPage.verificationOfCreatedAccountPageLoadingAndFinishRegistration();
