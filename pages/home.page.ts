@@ -7,6 +7,7 @@ export class HomePage {
   loggedInAsText: Locator;
   deleteAccountButton: Locator;
   logoutButton: Locator;
+  contactUsButton: Locator;
 
   async verificationOfHomePageLoading() {
     await this.consentAcceptButton.click();
@@ -16,9 +17,7 @@ export class HomePage {
 
   async verificationOfCreatedAccount(name: string) {
     await expect(this.loggedInAsText).toBeVisible();
-    await expect(this.loggedInAsText).toContainText(
-      `Logged in as ${name}`,
-    );
+    await expect(this.loggedInAsText).toContainText(`Logged in as ${name}`);
   }
 
   async deleteCreatedAccount() {
@@ -45,6 +44,7 @@ export class HomePage {
     this.deleteAccountButton = page.getByRole("link", {
       name: " Delete Account",
     });
-    this.logoutButton = page.getByRole('link', { name: ' Logout' });
+    this.logoutButton = page.getByRole("link", { name: " Logout" });
+    this.contactUsButton = page.getByRole("link", { name: " Contact us" });
   }
 }
