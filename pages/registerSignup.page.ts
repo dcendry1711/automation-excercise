@@ -11,6 +11,7 @@ export class RegisterSignupPage {
   loginPasswordInput: Locator;
   loginButton: Locator;
   errorLoginMessage: Locator;
+  errorRegistrationMessage: Locator;
 
   async verificationOfRegisterSignupPageLoadingAndFillingForm(name: string, email: string) {
     await expect(this.signupForm).toContainText("New User Signup!");
@@ -31,6 +32,11 @@ export class RegisterSignupPage {
     await expect(this.errorLoginMessage).toContainText("Your email or password is incorrect!");
   }
 
+  async displayErrorMessageForExistingEmail() {
+    await expect(this.errorRegistrationMessage).toBeVisible();
+    await expect(this.errorRegistrationMessage).toContainText("Email Address already exist!");
+  }
+
   constructor(private page: Page) {
     this.signupForm = page.locator(".signup-form");
     this.signupNameInput = page.locator("input[data-qa='signup-name']");
@@ -41,5 +47,6 @@ export class RegisterSignupPage {
     this.loginPasswordInput = page.getByRole('textbox', { name: 'Password' });
     this.loginButton = page.getByRole('button', { name: 'Login' });
     this.errorLoginMessage = page.getByText('Your email or password is');
+    this.errorRegistrationMessage = page.getByText('Email Address already exist!')
   }
 }
