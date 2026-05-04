@@ -1,3 +1,8 @@
+export const registeredUserData = {
+  name: "Daniel",
+  email: "daniel.cendry@gmail.com",
+};
+
 export const accountInformationFormUserData = {
   title: "Mr",
   password: "123456",
