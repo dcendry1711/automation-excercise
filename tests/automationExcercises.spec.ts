@@ -38,7 +38,7 @@ test.describe("Automation excercises test cases", () => {
     //verification of home page loading and accepting cookies
     await userLifecycle.homePage.verificationOfHomePageLoading();
     //begin of the login proccess
-    await userLifecycle.homePage.loginSignupButton.click();
+    await userLifecycle.homePage.loginSignupMenuButton.click();
     //verify of registration/signup page loading and filling the login form with incorrect email and password
     await userLifecycle.registerSignupPage.loginWithUserData(
       "incorrect@example.com",
@@ -68,7 +68,7 @@ test.describe("Automation excercises test cases", () => {
     const userLifecycle = new UserLifecycle(page);
     //registration of new user and verification of registration
     await userLifecycle.homePage.verificationOfHomePageLoading();
-    await userLifecycle.homePage.loginSignupButton.click();
+    await userLifecycle.homePage.loginSignupMenuButton.click();
     await userLifecycle.registerSignupPage.signupNameInput.fill(registeredUserData.name);
     await userLifecycle.registerSignupPage.signupEmailInput.fill(registeredUserData.email);
     await userLifecycle.registerSignupPage.signupButton.click();
@@ -81,7 +81,7 @@ test.describe("Automation excercises test cases", () => {
     //verification of home page loading and accepting cookies
     await homePage.verificationOfHomePageLoading();
     //navigation to contact us page and verification of loading
-    await homePage.contactUsButton.click();
+    await homePage.contactUsMenuButton.click();
     await expect(contactUsPage.getInTouchHeader).toBeVisible();
     //filling the contact us form and submitting
     await contactUsPage.fillContactUsForm(
@@ -98,4 +98,50 @@ test.describe("Automation excercises test cases", () => {
     await contactUsPage.backToHomePageBtn.click();
     await expect(homePage.leftSidebar).toBeVisible();
   });
+
+  test("TC07 - Verify test cases page", async ({ homePage, testCasesPage }) => {
+    //verification of home page loading and accepting cookies
+    await homePage.verificationOfHomePageLoading();
+    //navigation to test cases page and verification of loading
+    await homePage.testCasesMenuButton.click();
+    await expect(testCasesPage.testCasesPageHeader).toContainText("Test Cases");
+  });
+
+  test("TC08 - Verify all products and product detail page", async({ page, homePage, productsPage, productDetailsPage }) => {
+    //verification of home page loading and accepting cookies
+    await homePage.verificationOfHomePageLoading();
+    //navigation to products page and verification of loading
+    await homePage.productsMenuButton.click();
+    await expect(productsPage.productsPageHeader).toContainText("All Products");
+    await expect(productsPage.productsList).toBeVisible();
+    await productsPage.viewProductButtonOf1stProduct.click();
+    expect(page.url()).toContain("/product_details");
+    await productDetailsPage.verifyProductDetailsVisibility();
+  });
+
+  test("TC09 - Search product", async({ page, homePage, productsPage}) => {
+    const productToSearch = "Blue Top";
+    //verification of home page loading and accepting cookies
+    await homePage.verificationOfHomePageLoading();
+    //navigation to products page and verification of loading
+    await homePage.productsMenuButton.click();
+    await expect(productsPage.productsPageHeader).toContainText("All Products");
+    //search for product and verification of search results
+    await productsPage.searchProductInput.fill(productToSearch);
+    await productsPage.submitSearchProductButton.click();
+    expect(page.url()).toContain("/products?search");
+    await expect(productsPage.searchedProductsHeader).toContainText("Searched Products");
+    await expect(productsPage.searchedProductsList).toContainText(productToSearch);
+  });
+
+  test("TC10 - Verify subscription in home page", async({ homePage }) => {
+    //verification of home page loading and accepting cookies
+    await homePage.verificationOfHomePageLoading();
+    //filling the subscription form and submitting
+    await expect(homePage.subscriptionFooterHeader).toContainText("Subscription");
+    await homePage.subscriptionEmailInput.fill(registeredUserData.email);
+    await homePage.subscriptionSubmitButton.click();
+    await expect(homePage.subscriptionSuccessMessage).toBeVisible();
+    await expect(homePage.subscriptionSuccessMessage).toContainText("You have been successfully subscribed!");
+  })
 });
