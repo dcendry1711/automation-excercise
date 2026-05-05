@@ -5,6 +5,9 @@ import { AccountInformationPage } from "../pages/accountInformation.page";
 import { CreatedAccountPage } from "../pages/createdAcc.page";
 import { DeletedAccountPage } from "../pages/deletedAccount.page";
 import { ContactUsPage } from "../pages/contactUs.page"
+import { TestCasesPage } from "../pages/testCases.page";
+import { ProductsPage } from "../pages/products.page";
+import { ProductDetailsPage } from "../pages/productDetails.page";
 
 type MyFixtures = {
   homePage: HomePage;
@@ -13,6 +16,9 @@ type MyFixtures = {
   createdAccountPage: CreatedAccountPage;
   deletedAccountPage: DeletedAccountPage;
   contactUsPage: ContactUsPage;
+  testCasesPage: TestCasesPage;
+  productsPage: ProductsPage;
+  productDetailsPage: ProductDetailsPage;
 };
 
 export const test = base.extend<MyFixtures>({
@@ -34,6 +40,15 @@ export const test = base.extend<MyFixtures>({
   contactUsPage: async ({ page }, use) => {
     await use(new ContactUsPage(page));
   },
+  testCasesPage: async ({ page }, use) => {
+    await use(new TestCasesPage(page));
+  },
+  productsPage: async ({ page }, use) => {
+    await use(new ProductsPage(page));
+  },
+  productDetailsPage: async ({ page }, use) => {
+    await use(new ProductDetailsPage(page));
+  }
 });
 
 export { expect } from "@playwright/test";
