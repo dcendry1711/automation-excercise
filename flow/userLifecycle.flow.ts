@@ -23,7 +23,7 @@ async registerNewUser() {
     //verification of home page loading and accepting cookies
     await this.homePage.verificationOfHomePageLoading();
     //begin of the registration proccess
-    await this.homePage.loginSignupButton.click();
+    await this.homePage.loginSignupMenuButton.click();
     //verify of registration page loading and filling the registration form
     await this.registerSignupPage.verificationOfRegisterSignupPageLoadingAndFillingForm(userData.name, userData.email);
     //verification of account information page loading and filling the account information form
@@ -46,7 +46,7 @@ async registerNewUser() {
   }
 
   async loginWithCreatedUserData() {
-    await this.homePage.loginSignupButton.click();
+    await this.homePage.loginSignupMenuButton.click();
     //verify of registration page loading and filling the registration form
     await this.registerSignupPage.loginWithUserData(this.userDataArr[0].email, accountInformationFormUserData.password);
     //verification of account information page loading and filling the account information form
