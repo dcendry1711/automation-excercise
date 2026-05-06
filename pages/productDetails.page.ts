@@ -8,6 +8,9 @@ export class ProductDetailsPage {
     productAvailability: Locator;
     productCondition: Locator;
     productBrand: Locator;
+    quantity: Locator;
+    addToCartBtn: Locator;
+    viewCartBtn: Locator;
 
     async verifyProductDetailsVisibility() {
         await expect(this.productName).toBeVisible();
@@ -25,5 +28,8 @@ export class ProductDetailsPage {
         this.productAvailability = page.getByText('Availability: In Stock');
         this.productCondition = page.getByText('Condition: New');
         this.productBrand = page.getByText('Brand: Polo');
+        this.quantity = page.locator('#quantity');
+        this.addToCartBtn = page.getByRole('button', { name: ' Add to cart' });
+        this.viewCartBtn = page.getByRole('link', { name: 'View Cart' })
     }
 }
