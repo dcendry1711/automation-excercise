@@ -20,8 +20,6 @@ async registerNewUser() {
     //generate new user data for registration
     const userData = generateNewUserData();
     this.userDataArr.push(userData);
-    //verification of home page loading and accepting cookies
-    await this.homePage.verificationOfHomePageLoading();
     //begin of the registration proccess
     await this.homePage.loginSignupMenuButton.click();
     //verify of registration page loading and filling the registration form
