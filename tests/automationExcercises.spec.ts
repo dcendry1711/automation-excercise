@@ -5,9 +5,10 @@ import { handleDialog } from "../utils/handleDialog";
 import { contactUsFormData } from "../data/contactUsForm.data";
 
 test.describe("Automation excercises test cases", () => {
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ page, homePage }) => {
     await page.goto("");
     await page.waitForLoadState("domcontentloaded");
+    await homePage.verificationOfHomePageLoading();
   });
 
   test("TC01 - Register and delete new user", async ({ page }) => {
@@ -31,12 +32,9 @@ test.describe("Automation excercises test cases", () => {
     //deletion of created account and verification of deletion
     await userLifecycle.deleteCreatedUser();
   });
-  //generate new user data for registration
 
   test("TC03 - Login with incorrect email and password", async ({ page }) => {
     const userLifecycle = new UserLifecycle(page);
-    //verification of home page loading and accepting cookies
-    await userLifecycle.homePage.verificationOfHomePageLoading();
     //begin of the login proccess
     await userLifecycle.homePage.loginSignupMenuButton.click();
     //verify of registration/signup page loading and filling the login form with incorrect email and password
@@ -67,7 +65,6 @@ test.describe("Automation excercises test cases", () => {
   test("TC05 - Register user with existing email", async ({ page }) => {
     const userLifecycle = new UserLifecycle(page);
     //registration of new user and verification of registration
-    await userLifecycle.homePage.verificationOfHomePageLoading();
     await userLifecycle.homePage.loginSignupMenuButton.click();
     await userLifecycle.registerSignupPage.signupNameInput.fill(registeredUserData.name);
     await userLifecycle.registerSignupPage.signupEmailInput.fill(registeredUserData.email);
@@ -78,8 +75,6 @@ test.describe("Automation excercises test cases", () => {
   });
 
   test("TC06 - Contact us form", async ({ page, homePage, contactUsPage }) => {
-    //verification of home page loading and accepting cookies
-    await homePage.verificationOfHomePageLoading();
     //navigation to contact us page and verification of loading
     await homePage.contactUsMenuButton.click();
     await expect(contactUsPage.getInTouchHeader).toBeVisible();
@@ -100,16 +95,12 @@ test.describe("Automation excercises test cases", () => {
   });
 
   test("TC07 - Verify test cases page", async ({ homePage, testCasesPage }) => {
-    //verification of home page loading and accepting cookies
-    await homePage.verificationOfHomePageLoading();
     //navigation to test cases page and verification of loading
     await homePage.testCasesMenuButton.click();
     await expect(testCasesPage.testCasesPageHeader).toContainText("Test Cases");
   });
 
   test("TC08 - Verify all products and product detail page", async({ page, homePage, productsPage, productDetailsPage }) => {
-    //verification of home page loading and accepting cookies
-    await homePage.verificationOfHomePageLoading();
     //navigation to products page and verification of loading
     await homePage.productsMenuButton.click();
     await expect(productsPage.productsPageHeader).toContainText("All Products");
@@ -121,8 +112,6 @@ test.describe("Automation excercises test cases", () => {
 
   test("TC09 - Search product", async({ page, homePage, productsPage}) => {
     const productToSearch = "Blue Top";
-    //verification of home page loading and accepting cookies
-    await homePage.verificationOfHomePageLoading();
     //navigation to products page and verification of loading
     await homePage.productsMenuButton.click();
     await expect(productsPage.productsPageHeader).toContainText("All Products");
@@ -135,13 +124,55 @@ test.describe("Automation excercises test cases", () => {
   });
 
   test("TC10 - Verify subscription in home page", async({ homePage }) => {
-    //verification of home page loading and accepting cookies
-    await homePage.verificationOfHomePageLoading();
     //filling the subscription form and submitting
     await expect(homePage.subscriptionFooterHeader).toContainText("Subscription");
     await homePage.subscriptionEmailInput.fill(registeredUserData.email);
     await homePage.subscriptionSubmitButton.click();
     await expect(homePage.subscriptionSuccessMessage).toBeVisible();
     await expect(homePage.subscriptionSuccessMessage).toContainText("You have been successfully subscribed!");
+  })
+
+  test("TC11 - Verify subscription in cart page", async({homePage, cartPage}) => {
+    await homePage.cartMenuButton.click();
+    await expect(cartPage.shoppingCartHeader).toBeVisible();
+    await expect(cartPage.subscriptionFooterHeaderOnCartPage).toContainText("Subscription");
+    await cartPage.subscriptionEmailInputOnCartPage.fill(registeredUserData.email);
+    await cartPage.subscriptionSubmitButtonOnCartPage.click();
+    await expect(homePage.subscriptionSuccessMessage).toBeVisible();
+    await expect(homePage.subscriptionSuccessMessage).toContainText("You have been successfully subscribed!");
+  })
+
+  test("TC12 - Add products in cart", async({homePage, productsPage, cartPage}) => {
+    await homePage.productsMenuButton.click();
+    //verification of loading products page
+    await expect(productsPage.productsPageHeader).toContainText("All Products");
+    await productsPage.addToCartBtnOf1stProduct.click();
+    await expect(productsPage.addedProductToCartDialog).toBeVisible();
+    await productsPage.continueShoppingButton.click();
+    await productsPage.addToCartBtnOf2ndProduct.click();
+    await expect(productsPage.addedProductToCartDialog).toBeVisible();
+    await productsPage.viewCartBtn.click();
+    await expect(cartPage.shopingCartContainer).toBeVisible();
+    await expect(cartPage.firstProductInCart).toContainText("Blue Top")
+    await expect(cartPage.firstProductInCart).toContainText("Rs. 500")
+    await expect(cartPage.firstProductInCart).toContainText("1")
+    await expect(cartPage.firstProductInCart).toContainText("Rs. 500")
+    await expect(cartPage.secondProductInCart).toContainText("Men Tshirt")
+    await expect(cartPage.secondProductInCart).toContainText("Rs. 400")
+    await expect(cartPage.secondProductInCart).toContainText("1")
+    await expect(cartPage.secondProductInCart).toContainText("Rs. 400")
+  });
+
+  test("TC13 - verify product quantity in cart", async({ homePage, productDetailsPage, cartPage }) => {
+    await homePage.view1stProductBtn.click();
+    await productDetailsPage.verifyProductDetailsVisibility();
+    await productDetailsPage.quantity.fill('4');
+    await productDetailsPage.addToCartBtn.click();
+    await productDetailsPage.viewCartBtn.click();
+    await expect(cartPage.shoppingCartHeader).toBeVisible();
+    await expect(cartPage.firstProductInCart).toContainText("Blue Top")
+    await expect(cartPage.firstProductInCart).toContainText("Rs. 500")
+    await expect(cartPage.firstProductInCart).toContainText("4")
+    await expect(cartPage.firstProductInCart).toContainText("Rs. 2000")
   })
 });
