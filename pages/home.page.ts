@@ -10,10 +10,12 @@ export class HomePage {
   contactUsMenuButton: Locator;
   testCasesMenuButton: Locator;
   productsMenuButton: Locator;
+  cartMenuButton: Locator;
   subscriptionFooterHeader: Locator;
   subscriptionEmailInput: Locator;
   subscriptionSubmitButton: Locator;
   subscriptionSuccessMessage: Locator;
+  view1stProductBtn: Locator;
 
   async verificationOfHomePageLoading() {
     await this.consentAcceptButton.click();
@@ -54,9 +56,11 @@ export class HomePage {
     this.contactUsMenuButton = page.getByRole("link", { name: " Contact us" });
     this.testCasesMenuButton = page.getByRole('link', { name: ' Test Cases' });
     this.productsMenuButton = page.getByRole('link', { name: ' Products' });
+    this.cartMenuButton = page.getByRole('link', { name: ' Cart' });
     this.subscriptionFooterHeader = page.getByRole('heading', { name: 'Subscription' });
     this.subscriptionEmailInput = page.getByRole('textbox', { name: 'Your email address' });
     this.subscriptionSubmitButton = page.locator('#subscribe');
     this.subscriptionSuccessMessage = page.getByText('You have been successfully');
+    this.view1stProductBtn = page.getByRole('link', { name: ' View Product' }).first();
   }
 }
