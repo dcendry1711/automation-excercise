@@ -10,6 +10,8 @@ export class CartPage {
     subscriptionSuccessMessageOnCartPage: Locator;
     firstProductInCart: Locator;
     secondProductInCart: Locator;
+    proceedToCheckoutBtn: Locator;
+    registerLoginBtn: Locator;
 
     constructor(private page: Page) {
         this.shoppingCartHeader = page.getByText('Shopping Cart');
@@ -20,5 +22,7 @@ export class CartPage {
         this.subscriptionSuccessMessageOnCartPage = page.getByText('You have been successfully');
         this.firstProductInCart = page.getByRole('row', { name: 'Product Image Blue Top Women' });
         this.secondProductInCart = page.getByRole('row', { name: 'Product Image Men Tshirt Men' });
+        this.proceedToCheckoutBtn = page.getByText('Proceed To Checkout')
+        this.registerLoginBtn = page.getByRole('link', { name: 'Register / Login' })
     }
 }
