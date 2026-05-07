@@ -16,6 +16,10 @@ export class HomePage {
   subscriptionSubmitButton: Locator;
   subscriptionSuccessMessage: Locator;
   view1stProductBtn: Locator;
+  addToCart1stProductBtn: Locator;
+  addToCart2ndProductBtn: Locator;
+  continueShoppingBtn: Locator;
+  viewCartBtn: Locator;
 
   async verificationOfHomePageLoading() {
     await this.consentAcceptButton.click();
@@ -42,6 +46,17 @@ export class HomePage {
     await expect(this.leftSidebar).toBeVisible();
   }
 
+  async addProcutsToCart(){
+    await this.addToCart1stProductBtn.click();
+    await this.continueShoppingBtn.click();
+    await this.addToCart2ndProductBtn.click();
+  }
+
+  async moveToCartPage(){
+    await this.viewCartBtn.click();
+    expect(this.page.url()).toContain('/view_cart');
+  }
+
   constructor(private page: Page) {
     this.consentAcceptButton = page.locator(
       ".fc-button.fc-cta-consent.fc-primary-button",
@@ -62,5 +77,9 @@ export class HomePage {
     this.subscriptionSubmitButton = page.locator('#subscribe');
     this.subscriptionSuccessMessage = page.getByText('You have been successfully');
     this.view1stProductBtn = page.getByRole('link', { name: ' View Product' }).first();
+    this.addToCart1stProductBtn = page.locator('a[data-product-id="1"]').first();
+    this.addToCart2ndProductBtn = page.locator('a[data-product-id="2"]').first();
+    this.continueShoppingBtn = page.getByRole('button', { name: 'Continue Shopping' });
+    this.viewCartBtn = page.getByRole('link', { name: 'View Cart' })
   }
 }
