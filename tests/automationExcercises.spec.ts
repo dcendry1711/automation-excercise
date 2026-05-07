@@ -1,5 +1,6 @@
 import { test, expect } from "../fixtures/automationExcercises.fixture";
 import { registeredUserData } from "../data/registeredUserData.data";
+import { accountInformationFormUserData } from "../data/registeredUserData.data";
 import { UserLifecycle } from "../flow/userLifecycle.flow";
 import { handleDialog } from "../utils/handleDialog";
 import { contactUsFormData } from "../data/contactUsForm.data";
@@ -174,5 +175,35 @@ test.describe("Automation excercises test cases", () => {
     await expect(cartPage.firstProductInCart).toContainText("Rs. 500")
     await expect(cartPage.firstProductInCart).toContainText("4")
     await expect(cartPage.firstProductInCart).toContainText("Rs. 2000")
+  })
+
+  test("TC14 - Place Order: Register while Checkout", async({ page, homePage, cartPage, checkoutPage, paymentPage, paymentDonePage }) =>{
+    const userLifecycle = new UserLifecycle(page);
+    //add products to cart on home page
+    await homePage.addProcutsToCart();
+    //move to cart page and proceed checkout
+    await homePage.moveToCartPage();
+    await cartPage.proceedToCheckoutBtn.click();
+    await cartPage.registerLoginBtn.click();
+    //register new user
+    await userLifecycle.registerNewUser();
+    //move to cart page
+    await homePage.cartMenuButton.click();
+    //proceed to chceckout
+    await cartPage.proceedToCheckoutBtn.click();
+    //verify address data on checkout page
+    await checkoutPage.verifyAddressData();
+    //review of user order
+    await checkoutPage.reviewUserOrder();
+    //fill comment text area below review order section and place order
+    await checkoutPage.orderCommentTextArea.fill('Test description');
+    await checkoutPage.placeOrderBtn.click();
+    //fill form on payment page
+    await paymentPage.fillPaymentForm();
+    await paymentPage.payAndConfirmOrderBtn.click();
+    //verify succes message and finish order process
+    await paymentDonePage.verifyAndFinishOrderProcess();
+    //delete user account
+    await userLifecycle.deleteCreatedUser();
   })
 });
