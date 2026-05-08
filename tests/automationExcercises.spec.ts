@@ -1,9 +1,9 @@
 import { test, expect } from "../fixtures/automationExcercises.fixture";
 import { registeredUserData } from "../data/registeredUserData.data";
-import { accountInformationFormUserData } from "../data/registeredUserData.data";
 import { UserLifecycle } from "../flow/userLifecycle.flow";
 import { handleDialog } from "../utils/handleDialog";
 import { contactUsFormData } from "../data/contactUsForm.data";
+import { PurchaseProcess } from "../flow/purchaseProcess.flow";
 
 test.describe("Automation excercises test cases", () => {
   test.beforeEach(async ({ page, homePage }) => {
@@ -177,33 +177,42 @@ test.describe("Automation excercises test cases", () => {
     await expect(cartPage.firstProductInCart).toContainText("Rs. 2000")
   })
 
-  test("TC14 - Place Order: Register while Checkout", async({ page, homePage, cartPage, checkoutPage, paymentPage, paymentDonePage }) =>{
+  test("TC14 - Place Order: Register while Checkout", async({ page }) =>{
+
     const userLifecycle = new UserLifecycle(page);
-    //add products to cart on home page
-    await homePage.addProcutsToCart();
-    //move to cart page and proceed checkout
-    await homePage.moveToCartPage();
-    await cartPage.proceedToCheckoutBtn.click();
-    await cartPage.registerLoginBtn.click();
-    //register new user
+    const purchaseProcess = new PurchaseProcess(page);
+
+    //add products to cart, move to cart page, proceed checkout with register new user
+    await purchaseProcess.addProductsToCart();
+    await purchaseProcess.moveToCartPage();
+    await purchaseProcess.proceedToCheckout();
+    await purchaseProcess.beginRegisterProcessOnCartPage();
     await userLifecycle.registerNewUser();
-    //move to cart page
-    await homePage.cartMenuButton.click();
-    //proceed to chceckout
-    await cartPage.proceedToCheckoutBtn.click();
-    //verify address data on checkout page
-    await checkoutPage.verifyAddressData();
-    //review of user order
-    await checkoutPage.reviewUserOrder();
-    //fill comment text area below review order section and place order
-    await checkoutPage.orderCommentTextArea.fill('Test description');
-    await checkoutPage.placeOrderBtn.click();
-    //fill form on payment page
-    await paymentPage.fillPaymentForm();
-    await paymentPage.payAndConfirmOrderBtn.click();
-    //verify succes message and finish order process
-    await paymentDonePage.verifyAndFinishOrderProcess();
-    //delete user account
+
+    //go to cart page, continue checkout with registered user
+    await purchaseProcess.goToCartPage();
+    await purchaseProcess.proceedToCheckout();
+
+    //check order details and place order
+    await purchaseProcess.checkAddressDataAndVerifyOrder();
+    await purchaseProcess.fillDescriptionContainer();
+    await purchaseProcess.placeOrder();
+
+    //fill payment form and confirm order
+    await purchaseProcess.fillPaymentFormAndConfirmOrder();
+    await purchaseProcess.checkSuccessMessageAfterPurchase();
+
+    //delete registered user from app
+    await userLifecycle.deleteCreatedUser();
+  });
+
+  test("TC15 - Place Order: Register before Checkout", async({ page }) => {
+    
+    const userLifecycle = new UserLifecycle(page);
+    const purchaseProcess = new PurchaseProcess(page);
+
+    await userLifecycle.registerNewUser();
+    await purchaseProcess.fullPurchaseflowAfterRegisterNewUser();
     await userLifecycle.deleteCreatedUser();
   })
 });
