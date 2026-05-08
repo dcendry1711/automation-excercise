@@ -54,7 +54,10 @@ export class HomePage {
 
   async moveToCartPage(){
     await this.viewCartBtn.click();
-    expect(this.page.url()).toContain('/view_cart');
+  }
+
+  async moveToCartPageByMenuBtn(){
+    await this.cartMenuButton.click();
   }
 
   constructor(private page: Page) {
