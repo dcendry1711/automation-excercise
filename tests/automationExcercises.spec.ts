@@ -214,5 +214,5 @@ test.describe("Automation excercises test cases", () => {
     await userLifecycle.registerNewUser();
     await purchaseProcess.fullPurchaseflowAfterRegisterNewUser();
     await userLifecycle.deleteCreatedUser();
-  })
+  });
 });
